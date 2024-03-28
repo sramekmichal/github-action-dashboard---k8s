@@ -1,0 +1,43 @@
+name: Kubescape PUSH scanning for misconfigurations
+on: [push, workflow_dispatch]
+jobs:
+  kubescape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Scan with Kubescape
+        uses: kubescape/github-action@main
+        continue-on-error: true
+        with:
+          format: pdf
+          outputFile: report
+          account: ${{ secrets.KUBESCAPE_ACCOUNT }}
+        
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Kubescape Report
+          path: report.pdf
+          retention-days: 1
+      
+  report:
+    needs: kubescape
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Kubescape Report
+      
+      - name: Read that report
+        run: |
+          man report.pdf
+          

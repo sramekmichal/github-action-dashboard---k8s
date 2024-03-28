@@ -1,0 +1,39 @@
+replicaCount: 1
+namespace: 
+  enabled: true
+  name: dashboard
+image:
+  repository: 035814641800.dkr.ecr.eu-west-1.amazonaws.com/ga-dashboard
+  pullPolicy: IfNotPresent
+  tag: ""
+  port: 8080
+serviceAccount:
+  name: dashboard-serviceaccount
+  role: "arn:aws:iam::035814641800:role/GA-Dashboard-SecretStoreSecretAccount"
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "ga-dashboard-dev-stable"
+volumes:
+  secretStore:
+    name: dashboard-secretstore
+    region: eu-west-1
+  secret:
+    name: dashboard-env
+    path: "/ga-dashboard/integration"
+dns:
+  gateway: "istio-system/gateway-public"
+  virtualService: dashboard-vsc
+  address: "action-dashboard.sandbox.dex.almacareer.net"
+service:
+  name: dashboard-service
+  type: ClusterIP
+  port: 80
+podAnnotations: {
+  reloader.stakater.com/auto: "true"
+}
+podSecurityContext: {}
+securityContext: {}
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
