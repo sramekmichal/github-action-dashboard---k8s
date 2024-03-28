@@ -19,7 +19,7 @@ jobs:
           account: ${{ secrets.KUBESCAPE_ACCOUNT }}
         
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Kubescape Report
           path: report.pdf
