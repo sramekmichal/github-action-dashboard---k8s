@@ -33,7 +33,7 @@ jobs:
     
     steps:
       - name: Download a single artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Kubescape Report
       
