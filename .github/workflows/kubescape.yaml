@@ -31,7 +31,7 @@ jobs:
 
       - name: Annotation
         if: ${{ success() }} || ${{ failure() }}
-        uses: yeaung276/sarif-annotator@1.0.0
+        uses: yeaung276/sarif-annotator@1.0.1
         with: 
           sarif_path: results.sarif
           
